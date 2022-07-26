@@ -25,7 +25,7 @@ def apply(path):
                 new_name = hashlib.md5((entry.name + str(random.randint(100, 999))).encode("utf-8")).hexdigest() + ".novonome"
                 if(append_new_line(
                     "list-files.txt",
-                    os.path.dirname(entry.path).replace("\\", "/")
+                    os.path.dirname(entry.path).replace(os.getcwd(), '').replace("\\", "/")
                     + "/"
                     + new_name
                     + "::"
@@ -46,8 +46,8 @@ def revert():
     lines = open("list-files.txt", "r").readlines()
     for line in lines:
         data = line.split("::")
-        temp_name = data[0]
-        original_name = os.path.dirname(data[0]) + "/" + data[1]
+        temp_name = os.getcwd() + "/" + data[0]
+        original_name = os.path.dirname(os.getcwd() + "/" + data[0]) + "/" + data[1]
         os.rename(temp_name, original_name.replace("\n", ""))
         count = count + 1
     os.rename("list-files.txt", "OK_list-files.txt")
