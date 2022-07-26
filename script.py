@@ -5,7 +5,7 @@ import time
 
 
 def append_new_line(file_name, text_to_append):
-    with open(file_name, "a+") as file_object:
+    with open(file_name, "a+", encoding='utf-8') as file_object:
         file_object.seek(0)
         data = file_object.read(100)
         if len(data) > 0:
@@ -21,8 +21,8 @@ def apply(path):
         if entry.is_dir():
             count = count + apply(entry.path)
         else:
-            if len(entry.name) >= 100:
-                new_name = hashlib.md5((entry.name + str(random.randint(100, 999))).encode("utf-8")).hexdigest() + ".novonome"
+            if len(entry.name) >= 80:
+                new_name = hashlib.md5((entry.name + str(random.randint(100, 999))).encode()).hexdigest() + ".novonome"
                 if(append_new_line(
                     "list-files.txt",
                     os.path.dirname(entry.path).replace(os.getcwd(), '').replace("\\", "/")
